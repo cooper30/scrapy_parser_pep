@@ -2,6 +2,7 @@ import scrapy
 from scrapy import Selector
 
 from pep_parse.items import PepParseItem
+from pep_parse.utils import get_normalization_link
 
 
 class PepSpider(scrapy.Spider):
@@ -16,7 +17,10 @@ class PepSpider(scrapy.Spider):
         links = peps_table.css('a::attr(href)').getall()
 
         for link in links:
-            yield response.follow(link, callback=self.parse_pep)
+            yield response.follow(
+                get_normalization_link(link),
+                callback=self.parse_pep
+            )
 
     def parse_pep(self, response):
         pep_info = response.css('section[id="pep-content"]')

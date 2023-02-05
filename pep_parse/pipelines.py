@@ -1,5 +1,6 @@
 import csv
 import logging
+from collections import defaultdict
 from datetime import datetime as dt
 
 from scrapy.exceptions import DropItem
@@ -10,7 +11,7 @@ from pep_parse.settings import BASE_DIR, DT_FORMAT
 class PepParsePipeline:
 
     def open_spider(self, spider):
-        self.status = {}
+        self.status = defaultdict(list)
 
     def process_item(self, item, spider):
         try:
